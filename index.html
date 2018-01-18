@@ -11,9 +11,11 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-112671340-1');
-  ga(function(tracker) {
-	  // Logs the tracker created above to the console.
-	  console.log(tracker);
+  
+  	ga('create', 'UA-112671340-1', 'auto');
+	ga(function(tracker) {
+		// Logs the tracker created above to the console.
+		console.log(tracker);
 	});
 </script>
 
@@ -21,11 +23,11 @@
 <body>
 Hello World
 
-<button id="auth-button" hidden>Authorize</button>
+<!--<button id="auth-button" hidden>Authorize</button>
 
 <h1>Hello Analytics</h1>
 
-<!-- <textarea cols="80" rows="20" id="query-output"></textarea>
+ <textarea cols="80" rows="20" id="query-output"></textarea>
 
 <script>
 
