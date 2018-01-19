@@ -20,8 +20,8 @@
 $( document ).ready(function() {
 	$("[data-id='count']").css("display","none");
 	
-	//var count_child = $("[data-id='count']").children();
-	var count_child = $("[data-id='count']").filter(:first);
+	var count_child = $("[data-id='count']").children();
+	//var count_child = $("[data-id='count']").filter(:first);
 	console.log(count_child);
 	count_child.addClass("flag_counter");
 });
