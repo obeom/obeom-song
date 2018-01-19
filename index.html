@@ -20,8 +20,10 @@
 $( document ).ready(function() {
 	$("[data-id='count']").css("display","none");
 	
-	var hide_div = div[title^=Flag Counter];
-	console.log(hide_div);
+	//var count_child = $("[data-id='count']").children();
+	var count_child = $("[data-id='count']").filter(:first);
+	console.log(count_child);
+	count_child.addClass("flag_counter");
 });
 	
 </script>
@@ -29,9 +31,9 @@ $( document ).ready(function() {
 <div data-id="count">
 <script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
 <script type="text/javascript">
-sc_flag(1469613,"FFFFFF","000000","cccccc",1,1,1,0)
+	sc_flag(1469613,"FFFFFF","000000","cccccc",1,1,1,0)
 </script>
-<div title="Flag Counter" style="position: relative; display: inline-block; width: 120px; height: 118px; overflow: hidden; cursor: pointer; border-color: rgb(204, 204, 204); border-width: 1px; border-style: solid; background-color: rgb(255, 255, 255);">
+<!-- <div title="Flag Counter" style="position: relative; display: inline-block; width: 120px; height: 118px; overflow: hidden; cursor: pointer; border-color: rgb(204, 204, 204); border-width: 1px; border-style: solid; background-color: rgb(255, 255, 255);">
 	<div style="background-image: url(&quot;//widget.supercounters.com/images/flagsprites.png&quot;); background-repeat: no-repeat; background-position: -1904px 0px; position: absolute; padding: 0px; margin: 0px; width: 16px; height: 11px; top: 6px; left: 3px; overflow: hidden;"></div>
 	<div style="display: inline-block; font-family: Arial; font-size: 12px; color: rgb(0, 0, 0); position: absolute; font-weight: normal; width: 20px; height: 12px; top: 5px; left: 25px; overflow: hidden; font-style: normal; text-transform: none; text-decoration: none; letter-spacing: 0px; word-spacing: 0px; padding: 0px; margin: 0px; text-align: left; line-height: normal; text-size-adjust: none; direction: ltr; vertical-align: baseline; text-shadow: none;">
 		KR
@@ -74,7 +76,7 @@ sc_flag(1469613,"FFFFFF","000000","cccccc",1,1,1,0)
 	<div style="display: inline-block; font-family: Arial; font-size: 12px; color: rgb(0, 0, 0); position: absolute; font-weight: normal; width: 110px; height: 13px; top: 102px; left: 8px; overflow: hidden; font-style: normal; text-transform: none; text-decoration: none; letter-spacing: 0px; word-spacing: 0px; padding: 0px; margin: 0px; text-align: left; line-height: normal; text-size-adjust: none; direction: ltr; vertical-align: baseline; text-shadow: none;">
 		Supercounters.com
 	</div>
-</div>
+</div> -->
 <br>
 <noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
 </div>
