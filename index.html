@@ -18,12 +18,13 @@
 <body>
 <script>
 $( document ).ready(function() {
-	$("[data-id='count']").css("display","none");
+	//$("[data-id='count']").css("display","none");
+	$("[data-id='count']").hide();
 	
-	var count_child = $("[data-id='count']").children();
-	//var count_child = $("[data-id='count']").filter(:first);
-	console.log(count_child);
-	count_child.addClass("flag_counter");
+	//var count_child = $("[data-id='count']").children();
+	var count_child = $("[data-id='count'] div").first()addClass('flag_counter');
+	//console.log(count_child);
+	//count_child.addClass("flag_counter");
 });
 	
 </script>
