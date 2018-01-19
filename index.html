@@ -14,173 +14,38 @@
 
   gtag('config', 'UA-112671340-1');
 </script>
+
+
+<script src="https://apis.google.com/js/api.js"></script>
+    <script>
+      function start() {
+        // Initializes the client with the API key and the Translate API.
+        gapi.client.init({
+          'apiKey': 'AIzaSyALZBta1E8pU0vBylmsqN--tg72jxZCALE',
+          'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
+        }).then(function() {
+          // Executes an API request, and returns a Promise.
+          // The method name `language.translations.list` comes from the API discovery.
+          return gapi.client.language.translations.list({
+            q: 'hello world',
+            source: 'en',
+            target: 'de',
+          });
+        }).then(function(response) {
+          console.log(response.result.data.translations[0].translatedText);
+        }, function(reason) {
+          console.log('Error: ' + reason.result.error.message);
+        });
+      };
+
+      // Loads the JavaScript client library and invokes `start` afterwards.
+      gapi.load('client', start);
+    </script>
+
 </head>
 
 <body>
-<!-- BEGIN: Powered by Supercounters.com -->
-<!-- 총 방문자 
-<center>
-<script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
-<script type="text/javascript">
-	var a = sc_online_t(1469549, " 명", "#000000");
-	$("#test").text();
-</script>
-	<br>
-	<noscript>
-	<a href="http://www.supercounters.com/">Free Users Online Counter</a>
-	</noscript>
-</center> -->
-<!-- END: Powered by Supercounters.com -->
-
-
-
-
-<!-- BEGIN: Powered by Supercounters.com -->
-<!-- <center> -->
-<div data-id="visitors_counter">
-	<script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
-	<script type="text/javascript">
-		var data = sc_flag(1469554,"FFFFFF","000000","cccccc",2,10,0,0);
-		console.log(data);
-	</script>
-	<br>
-	<noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
-</div>
-<!-- </center> -->
-
-<button id="auth-button" hidden>Authorize</button>
-<h1>Hello Analytics</h1>
-<textarea cols="80" rows="20" id="query-output"></textarea>
-
-<script>
-  // Replace with your client ID from the developer console.
-  var CLIENT_ID = '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com';
-  // Set authorized scope.
-  var SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
-  function authorize(event) {
-    // Handles the authorization flow.
-    // `immediate` should be false when invoked from the button click.
-    var useImmdiate = event ? false : true;
-    var authData = {
-      client_id: CLIENT_ID,
-      scope: SCOPES,
-      immediate: useImmdiate
-    };
-    gapi.auth.authorize(authData, function(response) {
-      var authButton = document.getElementById('auth-button');
-      if (response.error) {
-        authButton.hidden = false;
-      }
-      else {
-        authButton.hidden = true;
-        queryAccounts();
-      }
-    });
-  }
-
-function queryAccounts() {
-  // Load the Google Analytics client library.
-  gapi.client.load('analytics', 'v3').then(function() {
-
-    // Get a list of all Google Analytics accounts for this user
-    gapi.client.analytics.management.accounts.list().then(handleAccounts);
-  });
-}
-
-function handleAccounts(response) {
-  // Handles the response from the accounts list method.
-  if (response.result.items && response.result.items.length) {
-    // Get the first Google Analytics account.
-    var firstAccountId = response.result.items[0].id;
-
-    // Query for properties.
-    queryProperties(firstAccountId);
-  } else {
-    console.log('No accounts found for this user.');
-  }
-}
-
-function queryProperties(accountId) {
-  // Get a list of all the properties for the account.
-  gapi.client.analytics.management.webproperties.list(
-      {'accountId': accountId})
-    .then(handleProperties)
-    .then(null, function(err) {
-      // Log any errors.
-      console.log(err);
-  });
-}
-
-function handleProperties(response) {
-  // Handles the response from the webproperties list method.
-  if (response.result.items && response.result.items.length) {
-    // Get the first Google Analytics account
-    var firstAccountId = response.result.items[0].accountId;
-    // Get the first property ID
-    var firstPropertyId = response.result.items[0].id;
-    // Query for Views (Profiles).
-    queryProfiles(firstAccountId, firstPropertyId);
-  } else {
-    console.log('No properties found for this user.');
-  }
-}
-
-function queryProfiles(accountId, propertyId) {
-  // Get a list of all Views (Profiles) for the first property
-  // of the first Account.
-  gapi.client.analytics.management.profiles.list({
-      'accountId': accountId,
-      'webPropertyId': propertyId
-  })
-  .then(handleProfiles)
-  .then(null, function(err) {
-      // Log any errors.
-      console.log(err);
-  });
-}
-
-function handleProfiles(response) {
-  // Handles the response from the profiles list method.
-  if (response.result.items && response.result.items.length) {
-    // Get the first View (Profile) ID.
-    var firstProfileId = response.result.items[0].id;
-
-    // Query the Core Reporting API.
-    queryCoreReportingApi(firstProfileId);
-  } else {
-    console.log('No views (profiles) found for this user.');
-  }
-}
-
-function queryCoreReportingApi(profileId) {
-  // Query the Core Reporting API for the number sessions for
-  // the past seven days.
-  gapi.client.analytics.data.ga.get({
-    'ids': 'ga:' + profileId,
-    'start-date': '7daysAgo',
-    'end-date': 'today',
-    'metrics': 'ga:sessions'
-  })
-  .then(function(response) {
-    var formattedJson = JSON.stringify(response.result, null, 2);
-    document.getElementById('query-output').value = formattedJson;
-  })
-  .then(null, function(err) {
-      // Log any errors.
-      console.log(err);
-  });
-}
-
-  // Add an event listener to the 'auth-button'.
-  document.getElementById('auth-button').addEventListener('click', authorize);
-</script>
-<script src="https://apis.google.com/js/client.js?onload=authorize"></script>
-
-<!-- 
-<a href="https://info.flagcounter.com/jqWf">
-	<img src="https://s01.flagcounter.com/count/jqWf/bg_FFFFFF/txt_000000/border_FFFFFF/columns_2/maxflags_10/viewers_3/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
-</a>
- -->
- 
+	<div id="results"></div>
 </body>
+
 </html>
