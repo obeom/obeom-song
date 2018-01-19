@@ -84,9 +84,9 @@
 <button id="auth-button" hidden>Authorize</button>
 <textarea cols="80" rows="20" id="query-output"></textarea>
 <script>
-  var CLIENT_ID = '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com';
-  var SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
-  function authorize(event) {
+  //var CLIENT_ID = '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com';
+  //var SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
+  /* function authorize(event) {
     var useImmdiate = event ? false : true;
     var authData = {
       client_id: CLIENT_ID,
@@ -94,18 +94,18 @@
       immediate: useImmdiate
     };
     gapi.auth.authorize(authData, function(response) {
-      /* var authButton = document.getElementById('auth-button');
+      var authButton = document.getElementById('auth-button');
       if (response.error) {
         authButton.hidden = false;
       }
       else {
         authButton.hidden = true;
         queryAccounts();
-      } */
-    	queryAccounts();
+      }
     });
-  }
-
+  } */
+queryAccounts();
+  
 function queryAccounts() {
   gapi.client.load('analytics', 'v3').then(function() {
     gapi.client.analytics.management.accounts.list().then(handleAccounts);
