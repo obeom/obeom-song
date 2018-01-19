@@ -16,166 +16,73 @@
 </head>
 
 <body>
-  <script type="text/javascript">
-     function handleClientLoad() {
-       // Loads the client library and the auth2 library together for efficiency.
-       // Loading the auth2 library is optional here since `gapi.client.init` function will load
-       // it if not already loaded. Loading it upfront can save one network request.
-       gapi.load('client:auth2', initClient);
-     }
+ <!-- Step 1: Create the containing elements. -->
 
-     function initClient() {
-       // Initialize the client with API key and People API, and initialize OAuth with an
-       // OAuth 2.0 client ID and scopes (space delimited string) to request access.
-       gapi.client.init({
-           apiKey: 'AIzaSyALZBta1E8pU0vBylmsqN--tg72jxZCALE',
-           discoveryDocs: ["https://people.googleapis.com/$discovery/rest?version=v1"],
-           clientId: '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com',
-           scope: 'profile'
-       }).then(function () {
-         // Listen for sign-in state changes.
-         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+<section id="auth-button"></section>
+<section id="view-selector"></section>
+<section id="timeline"></section>
 
-         // Handle the initial sign-in state.
-         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-       });
-     }
+<!-- Step 2: Load the library. -->
 
-     function updateSigninStatus(isSignedIn) {
-       // When signin status changes, this function is called.
-       // If the signin status is changed to signedIn, we make an API call.
-       if (isSignedIn) {
-         makeApiCall();
-       }
-     }
-
-     function handleSignInClick(event) {
-       // Ideally the button should only show up after gapi.client.init finishes, so that this
-       // handler won't be called before OAuth is initialized.
-       gapi.auth2.getAuthInstance().signIn();
-     }
-
-     function handleSignOutClick(event) {
-       gapi.auth2.getAuthInstance().signOut();
-     }
-
-     function makeApiCall() {
-       // Make an API call to the People API, and print the user's given name.
-       gapi.client.people.people.get({
-         'resourceName': 'people/me',
-         'requestMask.includeField': 'person.names'
-       }).then(function(response) {
-         console.log('Hello, ' + response.result.names[0].givenName);
-       }, function(reason) {
-         console.log('Error: ' + reason.result.error.message);
-       });
-     }
-   </script>
-   <script async defer src="https://apis.google.com/js/api.js"
-     onload="this.onload=function(){};handleClientLoad()"
-     onreadystatechange="if (this.readyState === 'complete') this.onload()">
-   </script>
-   <!-- <button id="signin-button" onclick="handleSignInClick()">Sign In</button>
-   <button id="signout-button" onclick="handleSignOutClick()">Sign Out</button> -->
-    
-    
-    
-<!-- <button id="auth-button" hidden>Authorize</button>
-<textarea cols="80" rows="20" id="query-output"></textarea>
 <script>
-//var CLIENT_ID = '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com';
-  var SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
-  function authorize(event) {
-    var useImmdiate = event ? false : true;
-    var authData = {
-      client_id: CLIENT_ID,
-      scope: SCOPES,
-      immediate: useImmdiate
-    };
-    gapi.auth.authorize(authData, function(response) {
-      var authButton = document.getElementById('auth-button');
-      if (response.error) {
-        authButton.hidden = false;
-      }
-      else {
-        authButton.hidden = true;
-        queryAccounts();
-      }
-    });
-  } 
-  
-function queryAccounts() {
-  gapi.client.load('analytics', 'v3').then(function() {
-    gapi.client.analytics.management.accounts.list().then(handleAccounts);
-  });
-}
-
-function handleAccounts(response) {
-  if (response.result.items && response.result.items.length) {
-    var firstAccountId = response.result.items[0].id;
-    queryProperties(firstAccountId);
-  } else {
-    console.log('No accounts found for this user.');
-  }
-}
-
-function queryProperties(accountId) {
-  gapi.client.analytics.management.webproperties.list(
-      {'accountId': accountId})
-    .then(handleProperties)
-    .then(null, function(err) {
-      console.log(err);
-  });
-}
-
-function handleProperties(response) {
-  if (response.result.items && response.result.items.length) {
-    var firstAccountId = response.result.items[0].accountId;
-    var firstPropertyId = response.result.items[0].id;
-    queryProfiles(firstAccountId, firstPropertyId);
-  } else {
-    console.log('No properties found for this user.');
-  }
-}
-
-function queryProfiles(accountId, propertyId) {
-  gapi.client.analytics.management.profiles.list({
-      'accountId': accountId,
-      'webPropertyId': propertyId
-  })
-  .then(handleProfiles)
-  .then(null, function(err) {
-      console.log(err);
-  });
-}
-
-function handleProfiles(response) {
-  if (response.result.items && response.result.items.length) {
-    var firstProfileId = response.result.items[0].id;
-    queryCoreReportingApi(firstProfileId);
-  } else {
-    console.log('No views (profiles) found for this user.');
-  }
-}
-
-function queryCoreReportingApi(profileId) {
-  gapi.client.analytics.data.ga.get({
-    'ids': 'ga:' + profileId,
-    'start-date': '7daysAgo',
-    'end-date': 'today',
-    'metrics': 'ga:sessions'
-  })
-  .then(function(response) {
-    var formattedJson = JSON.stringify(response.result, null, 2);
-    document.getElementById('query-output').value = formattedJson;
-  })
-  .then(null, function(err) {
-      console.log(err);
-  });
-}
-document.getElementById('auth-button').addEventListener('click', authorize);
+(function(w,d,s,g,js,fjs){
+  g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(cb){this.q.push(cb)}};
+  js=d.createElement(s);fjs=d.getElementsByTagName(s)[0];
+  js.src='https://apis.google.com/js/platform.js';
+  fjs.parentNode.insertBefore(js,fjs);js.onload=function(){g.load('analytics')};
+}(window,document,'script'));
 </script>
-<script src="https://apis.google.com/js/client.js?onload=authorize"></script> -->
+
+<script>
+gapi.analytics.ready(function() {
+
+  // Step 3: Authorize the user.
+
+  var CLIENT_ID = '812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com';
+
+  gapi.analytics.auth.authorize({
+    container: 'auth-button',
+    clientid: CLIENT_ID,
+  });
+
+  // Step 4: Create the view selector.
+
+  var viewSelector = new gapi.analytics.ViewSelector({
+    container: 'view-selector'
+  });
+
+  // Step 5: Create the timeline chart.
+
+  var timeline = new gapi.analytics.googleCharts.DataChart({
+    reportType: 'ga',
+    query: {
+      'dimensions': 'ga:date',
+      'metrics': 'ga:sessions',
+      'start-date': '30daysAgo',
+      'end-date': 'yesterday',
+    },
+    chart: {
+      type: 'LINE',
+      container: 'timeline'
+    }
+  });
+
+  // Step 6: Hook up the components to work together.
+
+  gapi.analytics.auth.on('success', function(response) {
+    viewSelector.execute();
+  });
+
+  viewSelector.on('change', function(ids) {
+    var newIds = {
+      query: {
+        ids: ids
+      }
+    }
+    timeline.set(newIds).execute();
+  });
+});
+</script> 
 </body>
 
 </html>
