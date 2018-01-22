@@ -32,9 +32,8 @@
 <body>
 
 <!-- step.2 token 생성 -->
-<form action="https://www.googleapis.com/" method="post" 
+<form action="https://www.googleapis.com/oauth2/v4/token" method="post" 
 enctype="application/x-www-form-urlencoded">
-	<!-- <a href="index.html">로그인</a><br/> -->
 	<input type="text" name="code" id="code_val" value="" /><input type="button" id="btn_code" value="CODE SET"><br/>
 	<input type="text" name="client_id" value="812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com" /><br/>
 	<input type="text" name="client_secret" value="To1T7YMC9QTottvgrCnueX1x" /><br/>
@@ -42,8 +41,6 @@ enctype="application/x-www-form-urlencoded">
 	<input type="text" name="grant_type" value="authorization_code" /><br/>
 	<input type="submit"/>
 </form>
-<!-- POST /oauth2/v4/token HTTP/1.1
-Host: www.googleapis.com
-Content-Type: application/x-www-form-urlencoded -->
+http://hellouser.cf/receiveCode.html?state=state_parameter_passthrough_value&code=4/k3TG3rvHa4AVg-zsfFSdPgxO4Fkdne6qsRWQKDCDTGQ&scope=https://www.googleapis.com/auth/analytics.readonly+https://www.googleapis.com/auth/analytics+https://www.googleapis.com/auth/plus.me+https://www.googleapis.com/auth/drive.metadata.readonly+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile#
 </body>
 </html>
