@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -17,11 +16,15 @@
 </head>
 
 <body>
+<%
+	String code = request.getParameter("code");
+%>
+
 <!-- step.2 token 생성 -->
 <form action="https://www.googleapis.com/" method="post" 
 enctype="application/x-www-form-urlencoded">
 	<!-- <a href="index.html">로그인</a><br/> -->
-	<input type="text" name="code" value="${code}" /><br/>
+	<input type="text" name="code" value="<%=code %>" /><br/>
 	<input type="text" name="client_id" value="812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com" /><br/>
 	<input type="text" name="client_secret" value="To1T7YMC9QTottvgrCnueX1x" /><br/>
 	<input type="text" name="redirect_uri" value="http://hellouser.cf/receiveCode.html" /><br/>
