@@ -5,26 +5,34 @@
 <meta charset="UTF-8">
 <title>receiveCode</title>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112671340-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-112671340-1');
+<script>
+	function getQuerystring(paramName){ 
+		var _tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제 
+		var _tempArray = _tempUrl.split('&'); // '&'을 기준으로 분리하기 
+		for(var i = 0; _tempArray.length; i++) { 
+			var _keyValuePair = _tempArray[i].split('='); // '=' 을 기준으로 분리하기 
+			if(_keyValuePair[0] == paramName){ // _keyValuePair[0] : 파라미터 명 // _keyValuePair[1] : 파라미터 값 
+				return _keyValuePair[1]; 
+			} 
+		} 
+	}
+	console.log(getQuerystring('code'));
+	
+	$("#btn_code").on("click", function(){
+		var txt_code = getQuerystring('code');
+		$("#code_val").val(txt_code);
+	});
 </script>
 </head>
 
 <body>
-<%
-	String code = request.getParameter("code");
-%>
+
 <!-- step.2 token 생성 -->
 <form action="https://www.googleapis.com/" method="post" 
 enctype="application/x-www-form-urlencoded">
 	<!-- <a href="index.html">로그인</a><br/> -->
-	<input type="text" name="code" value="<%=code %>" /><br/>
+	<input type="text" name="code" id="code_val" value="" /><input type="button" id="btn_code"><br/>
 	<input type="text" name="client_id" value="812074191489-eiihhe1u15c0qctmt5525uivd16bujc9.apps.googleusercontent.com" /><br/>
 	<input type="text" name="client_secret" value="To1T7YMC9QTottvgrCnueX1x" /><br/>
 	<input type="text" name="redirect_uri" value="http://hellouser.cf/receiveCode.html" /><br/>
